@@ -3,10 +3,8 @@ import "./Navbar.css";
 import Icono from "./Icono";
 import Logo from "../assets/logo.svg";
 const DESTINOS_INVITADO = {
-  descubrir: "#descubrir",
-  planes: "#planes",
-  paraArtistas: "#paraArtistas",
-  ayuda: "#ayuda",
+  inicio: "#inicio",
+  catalogo: "#catalogo",
 };
 const DESTINOS_SESION = {
   inicio: "#inicio",
@@ -44,7 +42,7 @@ const Navbar = ({
     textos?.menuMovil.abrir ?? (ingles ? "Open menu" : "Abrir menu");
   const cerrar =
     textos?.menuMovil.cerrar ?? (ingles ? "Close menu" : "Cerrar menu");
-  const enlacesInvitado = Object.entries(nav?.enlaces?.invitado ?? {}).filter(
+  const enlacesInvitado = Object.entries(nav?.enlaces ?? {}).filter(
     ([clave]) => DESTINOS_INVITADO[clave],
   );
   //convierte objeto en un arreglo de pares
@@ -171,17 +169,6 @@ const Navbar = ({
             </>
           )}
           <div className="navbar-utilidades">
-            <label className="navbar-idioma">
-              <Icono nombre="idioma" />
-              <select
-                value={idioma}
-                onChange={(evento) => cambiarIdioma(evento.target.value)}
-                aria-label={nav?.aria.idioma ?? "Cambiar idioma"}
-              >
-                <option value="es">ES</option>
-                <option value="en">EN</option>
-              </select>
-            </label>
             <button
               className="navbar-icono navbar-accesibilidad"
               type="button"
@@ -191,6 +178,16 @@ const Navbar = ({
             >
               <Icono nombre="accesibilidad" />
             </button>
+            <div className="navbar-idioma" role="group" aria-label={nav?.aria?.idioma ?? "Cambiar idioma"}>
+              
+              <button type="button" className={idioma === "es" ? "activo" : ""} onClick={() => cambiarIdioma("es")} aria-pressed={idioma === "es"}>
+                ES
+              </button>
+              <button type="button" className={idioma === "en" ? "activo" : ""} onClick={() => cambiarIdioma("en")} aria-pressed={idioma === "en"}>
+                EN
+              </button>
+            </div>
+            
             {/*             {nav && <a className="navbar-accion" href="#favoritos" onClick={() => setAbierto(false)}>{etiquetaFavoritos}</a>}
              */}{" "}
             <div className="navbar-sesion">

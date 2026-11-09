@@ -200,23 +200,27 @@
 .navbar-idioma {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   min-height: 40px;
-  padding-left: 12px;
+  padding: 3px;
   border: 1px solid var(--borde-fuerte);
   border-radius: 999px;
-  height: 40px;
-  width: 90px;
+  background: var(--fondo-sutil);
+  width: auto;
 }
-.navbar-idioma select {
-  min-height: 40px;
-  padding-right: 8px;
-  border: 0;
+
+.navbar-idioma button {
+  border: none;
   border-radius: 999px;
+  padding: 10px 18px;
   color: var(--texto-principal);
   background: transparent;
-  font-size: 0.8rem;
   cursor: pointer;
+}
+
+.navbar-idioma button.activo {
+  color: #171717;
+  background: #c4f34a;
 }
 
 .navbar-idioma:hover {

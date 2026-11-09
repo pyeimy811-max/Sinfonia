@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react";
 
-const API = "https://yanethm-sintonia-api.fly.dev/api/v1/textos"
-const CLAVES_MENU_INVITADO= ["descubrir","planes","paraArtistas","ayuda"]
+const API = "https://yanethm-sintonia-api.fly.dev/api/v1/textos";
+const CLAVES_MENU_PUBLICO= ["inicio","catalogo"]
 
 function validarTextos(datos) {
   const textos = datos?.textos;
@@ -9,7 +9,7 @@ function validarTextos(datos) {
   const etiquetas = [
     nav?.logo?.texto,
     nav?.logo?.aria,
-    ...CLAVES_MENU_INVITADO.map((clave) => nav?.enlaces?.invitado?.[clave]),
+    ...CLAVES_MENU_PUBLICO.map((clave) => nav?.enlaces?.[clave]),
     nav?.buscador?.placeholder,
     nav?.aria?.navegacion,
     nav?.aria?.idioma,

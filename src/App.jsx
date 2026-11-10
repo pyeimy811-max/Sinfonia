@@ -1,6 +1,7 @@
 import { useTextos } from "./hooks/useTextos.js";
 import "./App.css";
-import Navbar from "./components/Navbar.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 import { useEffect, useState } from "react";
 
 function leerSeccion() {
@@ -16,6 +17,7 @@ function App() {
   const [textoGrande, setTextoGrande] = useState(false);
   const datos = useTextos(idioma);
   console.log(datos);
+  console.log("Textos del footer:", datos.textos?.footer);
 
   const ingles = idioma === "en";
   const titulo =
@@ -60,6 +62,10 @@ function App() {
         onBuscar={buscar}
         texto={textoGrande}
         alternarTexto={() => setTextoGrande((valor) => !valor)}
+      />
+      <Footer
+        {...datos}
+        idioma={idioma}
       />
     </>
   );

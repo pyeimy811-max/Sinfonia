@@ -10,3 +10,9 @@
     flex: 1;
     display: grid;
 }
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

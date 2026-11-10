@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
-import Icono from "./Icono";
-import Logo from "../assets/logo.svg";
+import Icono from "../Icono";
+import Logo from "../../assets/logo.svg";
 const DESTINOS_INVITADO = {
   inicio: "#inicio",
   catalogo: "#catalogo",

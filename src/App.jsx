@@ -1,7 +1,17 @@
 import { useTextos } from "./hooks/useTextos.js";
+import { useAlbumes } from "./hooks/useALbumes.js";
+import { useGeneros } from "./hooks/useGeneros.js";
+import { leerCookie } from "./services/cookies.js";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import HeroSintonia from "./components/HeroSintonia/HeroSintonia.jsx";
+import SeccionAlbumes from "./components/SeccionesAlbumes/SeccionesAlbumes.jsx";
+import SeccionGeneros from "./components/SeccionGeneros/SeccionGeneros.jsx";
+import PortadaAlbum from "./components/PortadaAlbum/PortadaAlbum.jsx";
+import InvitacionRegistro from "./components/InvitacionRegistro/InvitacionRegistro.jsx";
+import BannerCookies from "./components/BannerCookies/BannerCookies.jsx";
+import Catalogo from "./pages/Catalogo/Catalogo.jsx";
 import { useEffect, useState } from "react";
 
 function leerSeccion() {
@@ -10,46 +20,45 @@ function leerSeccion() {
 
 function App() {
   // Idioma por defecto español
-  const [idioma, setIdioma] = useState("es");
-  const [sesion, setSesion] = useState("invitado");
+  const [idioma, setIdioma] = useState(() => {
+    return leerCookie("idioma") === "en" ? "en" : "es";
+  });
   const [activo, setActivo] = useState(leerSeccion);
-  const [consulta, setConsulta] = useState("");
-  const [textoGrande, setTextoGrande] = useState(false);
   const datos = useTextos(idioma);
-  console.log(datos);
-  console.log("Textos del footer:", datos.textos?.footer);
+  const {albumes, cargando: cargandoAlbumes, error: errorAlbumes} = useAlbumes();
+  const { generos } = useGeneros();
 
   const ingles = idioma === "en";
   const titulo =
     activo === "favoritos"
       ? datos.textos?.navbar.botones.favoritos
       : datos.textos?.navbar.enlaces[activo];
-  // Va sincronizar el estado del componente con el hash de la url
+
   useEffect(() => {
     function actualizar() {
       setActivo(leerSeccion());
-      setConsulta("");
+      
     }
     window.addEventListener("hashchange", actualizar);
     return () => window.removeEventListener("hashchange", actualizar);
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang;
+    document.documentElement.lang = idioma;
   }, [idioma]);
 
-  useEffect(() => {
-    document.documentElement.style.fontSize = textoGrande ? "112%" : "";
-    return () => {
-      document.documentElement.style.fontSize = "";
-    };
-  }, [textoGrande]);
+  function abrirAlbum(album) {
+    const tituloAlbum = album.titulo || album.nombre;
+    const nombreArtista = album.artista?.nombre || album.artista;
+    const nombreGenero = album.genero?.nombre || album.genero;
+    const variantePortada = album.portada?.patron ?? album.arte;
 
-  function buscar(valor) {
-    setConsulta(valor);
-    setActivo("heroes");
-    //window.history da acceso al historial de la pestaña
-    window.history.replaceState(null, "", "#heroes");
+    setDetalle({
+      titulo: tituloAlbum,
+      descripcion: `${nombreArtista} · ${nombreGenero}`,
+      contenido: <PortadaAlbum variante={variantePortada} />,
+      cerrar: ingles ? "Close" : "Cerrar",
+    });
   }
 
   return (
@@ -59,14 +68,29 @@ function App() {
         idioma={idioma}
         cambiarIdioma={setIdioma}
         activo={activo}
-        onBuscar={buscar}
-        texto={textoGrande}
-        alternarTexto={() => setTextoGrande((valor) => !valor)}
+        
       />
-      <Footer
-        {...datos}
-        idioma={idioma}
-      />
+      {activo === "catalogo" ? (
+        <Catalogo datos={datos} generos={generos} albumes={albumes} onSeleccionarAlbum={abrirAlbum} />
+      ) : (
+        <>
+          <HeroSintonia {...datos} totalGeneros={generos.length} />
+          <SeccionAlbumes
+            {...datos}
+            albumes={albumes}
+            error={errorAlbumes}
+            filaHorizontalMovil
+            onSeleccionar={abrirAlbum}
+          />
+          <SeccionGeneros
+            {...datos}
+            generos={generos}
+          />
+          <InvitacionRegistro {...datos} />
+        </>
+      )}
+      <BannerCookies {...datos} idioma={idioma} />
+      <Footer {...datos} idioma={idioma} />
     </>
   );
 }

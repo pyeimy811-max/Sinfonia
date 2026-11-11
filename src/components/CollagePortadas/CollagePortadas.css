@@ -1,0 +1,52 @@
+.collage-sintonia {
+  position: relative;
+  aspect-ratio: 1.15;
+  margin-top: 20px;
+}
+.collage-sintonia > .portada-album {
+  position: absolute;
+  border-radius: 20px;
+}
+.collage-sintonia .album-principal {
+  width: 66%;
+  top: 10%;
+  left: 22%;
+}
+.collage-sintonia .album-superior {
+  width: 29%;
+  right: -7%;
+  top: 10%;
+  transform: rotate(8deg);
+}
+.collage-sintonia .album-inferior {
+  width: 32%;
+  left: 0;
+  top: 55%;
+  transform: rotate(-8deg);
+}
+.nota-sintonia {
+  position: absolute;
+  right: 0;
+  bottom: 18%;
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  border-radius: 16px;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  transform: rotate(4deg);
+}
+.nota-sintonia b {
+  font-family: "Syne", sans-serif;
+}
+@media (max-width: 1000px) {
+  .nota-sintonia {
+    padding: 14px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 640px) {
+  .collage-sintonia {
+    display: none;
+  }
+}

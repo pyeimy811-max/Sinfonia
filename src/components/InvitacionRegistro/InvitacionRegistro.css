@@ -1,0 +1,61 @@
+.registro-sintonia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 48px;
+  margin-bottom: 80px;
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  border-radius: 16px;
+}
+.registro-sintonia h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  font-family: var(--fuente-syne), sans-serif;
+  font-weight: 700;
+}
+.registro-sintonia p {
+  font-size: 14px;
+}
+.registro-sintonia .boton-home {
+  background: #0c0b12;
+  color: #f4f2f7;
+  flex-shrink: 0;
+  border-color: #0c0b12;
+}
+.registro-sintonia button:focus-visible {
+  outline-color: #0c0b12;
+}
+@media (max-width: 1000px) {
+  .registro-sintonia {
+    padding: 32px;
+  }
+}
+@media (max-width: 640px) {
+  .registro-sintonia {
+    padding: 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    margin-bottom: 40px;
+    background: var(--fondo-elevada);
+    color: var(--texto-principal);
+  }
+}
+@media (max-width: 640px) {
+  .registro-sintonia h2 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 640px) {
+  .registro-sintonia p {
+    color: var(--texto-secundario);
+  }
+}
+@media (max-width: 640px) {
+  .registro-sintonia .boton-home {
+    background: var(--marca-primario);
+    color: var(--texto-sobre-marca);
+  }
+}

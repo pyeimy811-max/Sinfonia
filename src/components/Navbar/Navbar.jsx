@@ -1,18 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "./Navbar.css";
 import Icono from "../Icono";
 import Logo from "../../assets/logo.svg";
+import { PanelAccesibilidad } from "../PanelAccesibilidad/PanelAccesibilidad.jsx";
 const DESTINOS_INVITADO = {
   inicio: "#inicio",
   catalogo: "#catalogo",
 };
-const DESTINOS_SESION = {
-  inicio: "#inicio",
-  buscar: "#buscar",
-  sesiones: "#sesiones",
-  tuBiblioteca: "#tuBiblioteca",
-  descargas: "#descargas",
-};
+
 
 const Navbar = ({
   textos,
@@ -23,21 +19,16 @@ const Navbar = ({
   recargar,
   idioma,
   onBuscar,
-  textoGrande,
-  alternarTexto,
 }) => {
   const [abierto, setAbierto] = useState(false); //Saber si el toogle de mobile esta abierto
+  const [accesibilidadAbierta, setAccesibilidadAbierta] = useState(false);
+  const [posicionPanel, setPosicionPanel] = useState({ top: 80, right: 16 });
   const [busqueda, setBusqueda] = useState(""); //sin valor a buscar
   const botonMenu = useRef(null);
+  const botonAccesibilidad = useRef(null);
   const campoBusqueda = useRef(null);
   const nav = textos?.navbar;
-  const ingles = idioma === "en"; //Toma el valor de la variable idioma solo si es ingles
-  const etiquetaFavoritos =
-    nav?.botones?.favoritos ?? (ingles ? "Favorites" : "Favoritos");
-  const etiquetaBusqueda =
-    nav?.buscador?.aria ?? (ingles ? "Search" : "Buscar");
-  const botonBusqueda = nav?.buscador?.boton ?? (ingles ? "Search" : "Buscar");
-
+  const ingles = idioma === "en"; 
   const abrir =
     textos?.menuMovil.abrir ?? (ingles ? "Open menu" : "Abrir menu");
   const cerrar =
@@ -49,28 +40,41 @@ const Navbar = ({
 
   useEffect(() => {
     function cerrarConEscape(evento) {
-      if (!abierto) return;
-      if (evento.key === "Escape" && abierto) {
+      if (evento.key !== "Escape") return;
+      if (accesibilidadAbierta) {
+        setAccesibilidadAbierta(false);
+        botonAccesibilidad.current?.focus();
+      } else if (abierto) {
         setAbierto(false);
         botonMenu.current?.focus();
       }
     }
     document.addEventListener("keydown", cerrarConEscape); //Escucha las teclas en todo el documento
     return () => document.removeEventListener("keydown", cerrarConEscape);
-  }, [abierto]);
+  }, [abierto, accesibilidadAbierta]);
 
-  function abrirBusqueda(evento) {
-    setAbierto(true);
-    requestAnimationFrame(() => campoBusqueda.current?.focus());
-  }
+  useEffect(() => {
+    if (!accesibilidadAbierta) return;
 
-  function buscar(evento) {
-    evento.preventDefault(); // cancelar la accion que el navegador haria por defecto antes ese evento
-    const consulta = busqueda.trim();
-    if (!consulta) return;
-    onBuscar(consulta);
-    setAbierto(false);
-  }
+    function actualizarPosicionPanel() {
+      const boton = botonAccesibilidad.current;
+      if (!boton) return;
+      const rect = boton.getBoundingClientRect();
+      setPosicionPanel({
+        top: rect.bottom + 8,
+        right: window.innerWidth - rect.right,
+      });
+    }
+
+    actualizarPosicionPanel();
+    window.addEventListener("resize", actualizarPosicionPanel);
+    window.addEventListener("scroll", actualizarPosicionPanel, true);
+    return () => {
+      window.removeEventListener("resize", actualizarPosicionPanel);
+      window.removeEventListener("scroll", actualizarPosicionPanel, true);
+    };
+  }, [accesibilidadAbierta]);
+
 
   return (
     <header className="navbar ">
@@ -88,31 +92,11 @@ const Navbar = ({
         </a>
 
         <div className="navbar-movil-acciones">
-          {/* <button
-            type="button"
-            className="navbar-icono"
-            aria-label={etiquetaBusqueda}
-            onClick={abrirBusqueda}
-          >
-            <Icono nombre="buscar" />
-          </button> */}
-
-          {/* {nav && (
-            <a
-              className="navbar-icono"
-              href="#favoritos"
-              aria-label={etiquetaFavoritos}
-              onClick={() => setAbierto(false)}
-            >
-              <Icono nombre="favoritos" />
-            </a>
-          )} */}
-          {!abierto && <button
-            type="button"
-            className="navbar-ingresar-movil "
-          >
-            {nav?.botones?.invitado?.ingresar}
-          </button>}
+          {!abierto && (
+            <button type="button" className="navbar-ingresar-movil ">
+              {nav?.botones?.invitado?.ingresar}
+            </button>
+          )}
           <button
             type="button"
             ref={botonMenu}
@@ -162,55 +146,94 @@ const Navbar = ({
                   </li>
                 ))}
               </ul>
-              {/* <form className="navbar-buscador" role="search" aria-label={etiquetaBusqueda} onSubmit={buscar}>
-              <button type="submit" aria-label={botonBusqueda}><Icono nombre="buscar" /></button>
-              <input ref={campoBusqueda} type="search" value={busqueda} onChange={(evento) => setBusqueda(evento.target.value)} placeholder={nav.buscador.placeholder} aria-label={etiquetaBusqueda} required />
-            </form> */}
+  
             </>
           )}
+
           <div className="navbar-utilidades">
-            <button
-              className="navbar-icono navbar-accesibilidad"
-              type="button"
-              aria-label={ingles ? "Enlarge text" : "Aumentar texto"}
-              aria-pressed={textoGrande}
-              onClick={alternarTexto}
-            >
-              <Icono nombre="accesibilidad" />
-            </button>
-            <div className="navbar-idioma" role="group" aria-label={nav?.aria?.idioma ?? "Cambiar idioma"}>
-              
-              <button type="button" className={idioma === "es" ? "activo" : ""} onClick={() => cambiarIdioma("es")} aria-pressed={idioma === "es"}>
-                ES
-              </button>
-              <button type="button" className={idioma === "en" ? "activo" : ""} onClick={() => cambiarIdioma("en")} aria-pressed={idioma === "en"}>
-                EN
-              </button>
-            </div>
             
-            {/*             {nav && <a className="navbar-accion" href="#favoritos" onClick={() => setAbierto(false)}>{etiquetaFavoritos}</a>}
-             */}{" "}
-            <div className="navbar-sesion">
-              <button
-                href="#ingresar"
-                type="submit"
-                className="navbar-invitado-ingresar "
-                onClick={() => setAbierto(false)}
-              >
-                {nav?.botones?.invitado?.ingresar}
-              </button>
-              <a
-                href="#crear-cuenta"
-                className="navbar-invitado-crear-cuenta "
-                onClick={() => setAbierto(false)}
-              >
-                {nav?.botones?.invitado?.crearCuenta}
-              </a>
-              
+            <div className="navbar-utilidad-fila">
+              <span>{textos?.menuMovil?.secciones?.idioma}</span>
+               <div className="navbar-idiomas-movil">
+                <label className="navbar-idioma">
+                  <button
+                  type="button"
+                  className="navbar-idioma-boton-es"
+                  aria-pressed={idioma==="es"}
+                  onClick={() => cambiarIdioma("es")}
+                >
+                  ES
+                </button>
+                <button
+                  type="button"
+                  className="navbar-idioma-boton-en"
+                  aria-pressed={idioma==="en"}
+                  onClick={() => cambiarIdioma("en")}
+                >
+                  EN
+                </button>
+                </label>
+                
+                </div>
+                
+
             </div>
+            <button
+              ref={botonAccesibilidad}
+              className="navbar-accesibilidad"
+              type="button"
+              aria-label={
+                ingles ? "Accessibility options" : "Opciones de accesibilidad"
+              }
+              aria-expanded={accesibilidadAbierta}
+              aria-controls="panel-accesibilidad"
+              onClick={() =>
+                setAccesibilidadAbierta((valor) => !valor)
+              }
+            >
+              <span>{textos?.menuMovil?.secciones.accesibilidad}</span>
+              <div className="navbar-accesibilidad-movil"><Icono nombre="accesibilidad" /></div>
+              
+            </button>
+          </div>
+          <div className="navbar-sesion">
+            <button
+              href="#ingresar"
+              type="submit"
+              className="navbar-invitado-ingresar "
+              onClick={() => setAbierto(false)}
+            >
+              {nav?.botones?.invitado?.ingresar}
+            </button>
+            <a
+              href="#crear-cuenta"
+              className="navbar-invitado-crear-cuenta "
+              onClick={() => setAbierto(false)}
+            >
+              {nav?.botones?.invitado?.crearCuenta}
+            </a>
           </div>
         </div>
       </nav>
+      {accesibilidadAbierta &&
+        createPortal(
+          <div
+            className="navbar-panel-accesibilidad"
+            style={{
+              "--panel-top": `${posicionPanel.top}px`,
+              "--panel-right": `${posicionPanel.right}px`,
+            }}
+          >
+            <PanelAccesibilidad
+              textos={textos}
+              onClose={() => {
+                setAccesibilidadAbierta(false);
+                botonAccesibilidad.current?.focus();
+              }}
+            />
+          </div>,
+          document.body,
+        )}
     </header>
   );
 };

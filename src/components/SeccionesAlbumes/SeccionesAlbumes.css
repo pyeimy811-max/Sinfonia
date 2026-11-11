@@ -1,0 +1,105 @@
+.seccion-albumes {
+  padding-bottom: 100px;
+}
+.albumes-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.seccion-albumes .albumes-grid:not(.albumes-grid-fila):not(.albumes-grid-fila-movil) {
+  grid-template-columns: repeat(auto-fill, 200px);
+}
+
+.seccion-albumes .tarjeta-album {
+  width: 200px;
+  height: 258px;
+}
+
+.seccion-albumes h2 {
+  font-family: var(--fuente-syne), sans-serif;
+  font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+  .albumes-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .albumes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .albumes-grid-limite-movil > :nth-child(n + 3) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .seccion-albumes {
+    padding-bottom: 40px;
+  }
+}
+
+.albumes-grid.albumes-grid-fila {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.albumes-grid-fila > .tarjeta-album {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+}
+
+.albumes-grid-fila:focus-visible {
+  outline: 2px solid var(--texto-principal);
+  outline-offset: 4px;
+}
+
+@media (min-width: 641px) {
+  .albumes-grid.albumes-grid-fila {
+    scrollbar-width: none;
+  }
+
+  .albumes-grid.albumes-grid-fila::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .albumes-grid.albumes-grid-fila {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .albumes-grid-fila > .tarjeta-album {
+    flex: 0 0 200px;
+    scroll-snap-align: start;
+  }
+
+  .albumes-grid.albumes-grid-fila-movil {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .albumes-grid-fila-movil > .tarjeta-album {
+    flex: 0 0 200px;
+    scroll-snap-align: start;
+  }
+}

@@ -1,0 +1,61 @@
+.tarjeta-genero {
+  position: relative;
+  min-height: 132px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 14px;
+  color: var(--fijo-negro);
+  text-align: left;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.tarjeta-genero span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  align-self: start;
+  font: 700 20px "Syne", sans-serif;
+}
+
+.tarjeta-genero .portada-album {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  right: -8px;
+  bottom: -26px;
+  transform: rotate(22deg);
+  transition: transform 180ms ease;
+  border-radius: 12px;
+  box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.35);
+}
+
+.tarjeta-genero.texto-claro span {
+  color: var(--texto-principal);  
+}
+
+.tarjeta-genero:hover .portada-album {
+  transform: rotate(12deg) translateY(-8px);
+}
+
+.tarjeta-genero[aria-pressed="true"] {
+  outline: 3px solid var(--texto-principal);
+  outline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .tarjeta-genero {
+    min-height: 104px;
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .tarjeta-genero span {
+    font-size: 16px;
+  }
+  .tarjeta-genero .portada-album {
+    width: 68px;
+    height: 68px;
+  }
+}

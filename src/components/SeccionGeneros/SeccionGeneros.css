@@ -1,0 +1,27 @@
+.seccion-generos {
+  padding-bottom: 48px;
+}
+.seccion-generos h2 {
+  font-family: var(--fuente-syne), sans-serif;
+  font-weight: 700;
+}
+.generos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+}
+@media (max-width: 640px) {
+  .generos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .seccion-generos:not(.seccion-generos-catalogo) .generos-grid > :nth-child(n + 5) {
+    display: none;
+  }
+
+  .seccion-generos-catalogo .generos-grid > :nth-child(n + 9) {
+    display: none;
+  }
+}

@@ -1,0 +1,98 @@
+# Creado por https://www.toptal.com/developers/gitignore/api/react,windows,macos,linux
+# Editar en https://www.toptal.com/developers/gitignore?templates=react,windows,macos,linux
+
+### Linux ###
+*~
+
+# Archivos temporales que se pueden crear si un proceso aún tiene abierto un identificador de un archivo eliminado.
+.fuse_hidden*
+
+# Preferencias de directorio de KDE
+.directorio
+
+# Carpeta de papelera de Linux que puede aparecer en cualquier partición o disco
+.Basura-*
+
+# Los archivos .nfs se crean cuando se elimina un archivo abierto pero aún se está accediendo a él.
+.nfs*
+
+### macOS ###
+# General
+.DS_Store
+.ManzanaDoble
+.LSOverride
+
+# El icono debe terminar con dos \r
+Icono
+
+
+# Miniaturas
+._*
+
+# Archivos que podrían aparecer en la raíz de un volumen
+.RevisionesDocumento-V100
+.fseventsd
+Foco V100
+.ElementosTemporales
+Basura
+.VolumeIcon.icns
+.com.apple.timemachine.nopresentar
+
+# Directorios potencialmente creados en el recurso compartido remoto de AFP
+.AppleDB
+.AppleDesktop
+Carpeta de papelera de red
+Artículos temporales
+.apdisk
+
+### Parche para macOS ###
+# Archivos generados por iCloud
+*.icloud
+
+### reaccionar ###
+.DS_*
+*.registro
+registros
+**/*.respaldo.*
+**/*.atrás.*
+
+node_modules
+componentes_bower
+
+*.sublime*
+
+psd
+pulgar
+bosquejo
+
+### Windows ###
+# Archivos de caché de miniaturas de Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Archivo de volcado
+*.stackdump
+
+# Archivo de configuración de la carpeta
+[Dd]esktop.ini
+
+# Papelera de reciclaje utilizada en recursos compartidos de archivos
+$RECICLAJE.CONTENEDOR/
+
+# Archivos del instalador de Windows
+*.taxi
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Accesos directos de Windows
+*.lnk
+
+# Fin de https://www.toptal.com/developers/gitignore/api/react,windows,macos,linux
+
+node_modules/
+dist/
+package-lock.json

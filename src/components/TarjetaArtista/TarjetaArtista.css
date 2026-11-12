@@ -1,0 +1,25 @@
+/* TarjetaArtista.css */
+.tarjeta-artista {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.avatar-artista {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tarjeta-artista h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tarjeta-artista span {
+  font-size: 13px;
+  color: var(--texto-secundario);
+}

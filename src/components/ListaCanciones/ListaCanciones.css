@@ -1,0 +1,48 @@
+.seccion-canciones {
+  margin-top: 40px;
+}
+
+.lista-canciones {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+}
+
+.item-cancion {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.item-cancion:hover {
+  background: var(--fondo-superficie);
+}
+
+.numero-cancion {
+  width: 32px;
+  font-size: 14px;
+  color: var(--texto-secundario);
+}
+
+.info-cancion {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.titulo-cancion {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.artista-cancion {
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+
+.duracion-cancion {
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
